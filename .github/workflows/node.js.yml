@@ -29,12 +29,12 @@ jobs:
           ${{ runner.os }}-node-
     - run: npm ci
       name: Install dependencies
-    - name: Test
-      env:
-        NCM_API_TEST_LOGIN_COUNTRY_CODE: ${{ secrets.NCM_API_TEST_LOGIN_COUNTRY_CODE }}
-        NCM_API_TEST_LOGIN_PHONE: ${{ secrets.NCM_API_TEST_LOGIN_PHONE }}
-        NCM_API_TEST_LOGIN_PASSWORD: ${{ secrets.NCM_API_TEST_LOGIN_PASSWORD }}
-      run: npm test
+    #- name: Test
+    #  env:
+    #    NCM_API_TEST_LOGIN_COUNTRY_CODE: ${{ secrets.NCM_API_TEST_LOGIN_COUNTRY_CODE }}
+    #    NCM_API_TEST_LOGIN_PHONE: ${{ secrets.NCM_API_TEST_LOGIN_PHONE }}
+    #    NCM_API_TEST_LOGIN_PASSWORD: ${{ secrets.NCM_API_TEST_LOGIN_PASSWORD }}
+    #  run: npm test
   lint:
     name: Lint
     runs-on: ubuntu-latest
