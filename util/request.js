@@ -6,6 +6,7 @@ const https = require('https')
 const tunnel = require('tunnel')
 const { URLSearchParams, URL } = require('url')
 const config = require('../util/config.json')
+const { getRandom } = require('../util')
 // request.debug = true // 开启可看到更详细信息
 
 const chooseUserAgent = (ua = false) => {
@@ -42,7 +43,7 @@ const chooseUserAgent = (ua = false) => {
     ? realUserAgentList[Math.floor(Math.random() * realUserAgentList.length)]
     : ua
 }
-const createRequest = (method, url, data, options) => {
+const createRequest = (method, url, data = {}, options) => {
   return new Promise((resolve, reject) => {
     let headers = { 'User-Agent': chooseUserAgent(options.ua) }
     if (method.toUpperCase() === 'POST')
@@ -53,8 +54,10 @@ const createRequest = (method, url, data, options) => {
     // headers['X-Real-IP'] = '118.88.88.88'
     if (typeof options.cookie === 'object') {
       if (!options.cookie.MUSIC_U) {
-        // 匿名
-        options.cookie.MUSIC_A = config.anonymous_token
+        // 游客
+        if (!options.cookie.MUSIC_A) {
+          options.cookie.MUSIC_A = config.anonymous_token
+        }
       }
       headers['Cookie'] = Object.keys(options.cookie)
         .map(
@@ -112,7 +115,6 @@ const createRequest = (method, url, data, options) => {
       data = encrypt.eapi(options.url, data)
       url = url.replace(/\w*api/, 'eapi')
     }
-
     const answer = { status: 500, body: {}, cookie: [] }
     let settings = {
       method: method,
