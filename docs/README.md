@@ -297,6 +297,20 @@ windows 下使用 git-bash 或者 cmder 等终端执行以下命令 :
 $ set HOST=127.0.0.1 && node app.js
 ```
 
+### npx 方式运行
+支持 npx 方式运行,会自动安装依赖和运行
+```
+npx NeteaseCloudMusicApi
+```
+如果需要更新,可使用 `npx NeteaseCloudMusicApi@版本号` 方式运行
+
+或者运行
+```
+npx NeteaseCloudMusicApi@latest
+
+```
+此命令每次执行都会使用最新版
+
 ## Vercel 部署
 
 v4.0.8 加入了 Vercel 配置文件,可以直接在 Vercel 下部署了,不需要自己的服务器(访问 Vercel 部署的接口,需要额外加一个 realIP 参数,如 `/song/url?id=191254&realIP=116.25.146.177`)
@@ -442,6 +456,8 @@ $ sudo docker run -d -p 3000:3000 netease-music-api
 说明 : 登录有三个接口,建议使用`encodeURIComponent`对密码编码或者使用`POST`请求,避免某些特殊字符无法解析,如`#`(`#`在 url 中会被识别为 hash,而不是 query)
 
 不要频繁调登录接口,不然可能会被风控,登录状态还存在就不要重复调登录接口
+
+因网易增加了网易云盾验证,密码登录暂时不要使用,尽量使用短信验证码登录和二维码登录,否则调用某些接口会触发需要验证的错误
 
 #### 1. 手机登录
 
