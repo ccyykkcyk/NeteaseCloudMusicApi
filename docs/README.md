@@ -1419,7 +1419,7 @@ tags: 歌单标签
 说明 : 使用注意事项同上
 
 **必选参数 :** `id` : 音乐 id
- `level`: 播放音质等级, 分为 `standard` => `标准`, `exhigh`=>`极高`, `lossless`=>`无损`, `hires`=>`Hi-Res`
+ `level`: 播放音质等级, 分为 `standard` => `标准`,`higher` => `较高`, `exhigh`=>`极高`, `lossless`=>`无损`, `hires`=>`Hi-Res`
 
 **接口地址 :** `/song/url/v1`
 
@@ -3904,11 +3904,11 @@ type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 
 由于此接口返回内容过于复杂, 请按需取用
 
-**接口地址:** `/song/wiki/about`
+**接口地址:** `/song/wiki/summary`
 
 **必选参数:** `id`: 歌曲 ID
 
-**调用例子:** `/song/wiki/about?id=1958384591`
+**调用例子:** `/song/wiki/summary?id=1958384591`
 
 ### 乐谱列表
 
