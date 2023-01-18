@@ -334,6 +334,23 @@ v4.0.8 加入了 Vercel 配置文件,可以直接在 Vercel 下部署了,不需�
 5. 直接点`Continue`
 6. `PROJECT NAME`自己填,`FRAMEWORK PRESET` 选 `Other` 然后直接点 `Deploy` 接着等部署完成即可
 
+
+## 腾讯云 serverless 部署
+因 `Vercel` 在国内访问太慢,在此提供腾讯云 serverless 部署方法
+### 操作方法
+1. fork 此项目
+2. 在腾讯云serverless应用管理页面( https://console.cloud.tencent.com/sls ),点击`新建应用`
+3. 顶部`创建方式`选择 `Web 应用`
+4. 选择 `Express框架`,点击底部`下一步按钮`
+5. 输入`应用名`,上传方式选择`代码仓库`,进行GitHub授权(如已授权可跳过这一步),代码仓库选择刚刚fork的项目
+6. 启动文件填入:
+```
+#!/bin/bash
+export PORT=9000
+/var/lang/node16/bin/node app.js
+``` 
+7. 点击`完成`,等待部署完成,点击`资源列表`的 `API网关` 里的 `URL`,正常情况会打开文档地址,点击文档`例子`可查看接口调用效果
+
 ## 可以使用代理
 
 在 query 参数中加上 proxy=your-proxy 即可让这一次的请求使用 proxy
@@ -1624,6 +1641,21 @@ tags: 歌单标签
 
 返回数据如下图 :
 ![获取歌词](https://raw.githubusercontent.com/Binaryify/NeteaseCloudMusicApi/master/static/%E6%AD%8C%E8%AF%8D.png)
+
+### 获取逐字歌词
+
+说明 : 此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)
+
+
+**必选参数 :** `id`: 音乐 id
+
+**接口地址 :** `/lyric/new`
+
+**调用例子 :** `/lyric/new?id=1824020871`
+
+
+相关讨论可见: [Issue](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1667)
+
 
 ### 新歌速递
 
@@ -3542,13 +3574,17 @@ type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 
 **调用例子 :** `/artist/new/mv?limit=1` `/artist/new/mv?limit=1&before=1602777625000`
 
-### 一起听状态
+### 一起听相关
 
-说明 :登录后调用此接口可获取一起听状态
+一起听相关参见此 Issue: [#1676](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1676)
 
-**接口地址 :** `/listen/together/status`
+主机模式:
 
-**调用例子 :** `/listen/together/status`
+代码可参考: https://github.com/Binaryify/NeteaseCloudMusicApi/blob/master/public/listen_together_host.html
+
+访问地址: http://localhost:3000/listen_together_host.html
+
+从机模式: 待整理
 
 ### batch 批量请求接口
 
