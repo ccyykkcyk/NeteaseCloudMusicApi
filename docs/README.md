@@ -268,6 +268,7 @@
 250. 曲风-专辑
 251. 曲风-歌单
 252. 曲风-歌手
+253. 私信和通知接口
 
 ## 安装
 
@@ -325,6 +326,8 @@ npx NeteaseCloudMusicApi@latest
 
 v4.0.8 加入了 Vercel 配置文件,可以直接在 Vercel 下部署了,不需要自己的服务器(访问 Vercel 部署的接口,需要额外加一个 realIP 参数,如 `/song/url?id=191254&realIP=116.25.146.177`)
 
+不能正常访问的,绑定下国内备案过的域名,之后即可正常访问
+
 ### 操作方法
 
 1. fork 此项目
@@ -336,7 +339,7 @@ v4.0.8 加入了 Vercel 配置文件,可以直接在 Vercel 下部署了,不需�
 
 
 ## 腾讯云 serverless 部署
-因 `Vercel` 在国内访问太慢,在此提供腾讯云 serverless 部署方法
+因 `Vercel` 在国内访问太慢(不绑定自己的域名的情况下),在此提供腾讯云 serverless 部署方法(注意:腾讯云 serverless 并不是免费的,前三个月有免费额度,之后收费)
 ### 操作方法
 1. fork 此项目
 2. 在腾讯云serverless应用管理页面( https://console.cloud.tencent.com/sls ),点击`新建应用`
@@ -486,7 +489,7 @@ $ sudo docker run -d -p 3000:3000 netease-music-api
 
 因网易增加了网易云盾验证,密码登录暂时不要使用,尽量使用短信验证码登录和二维码登录,否则调用某些接口会触发需要验证的错误
 
-#### 1. 手机登录
+#### 1. 手机登录(现在要求验证,暂时绕不过,请使用二维码登录)
 
 **必选参数 :**  
 `phone`: 手机号码
@@ -504,7 +507,7 @@ $ sudo docker run -d -p 3000:3000 netease-music-api
 
 **调用例子 :** `/login/cellphone?phone=xxx&password=yyy` `/login/cellphone?phone=xxx&md5_password=yyy` `/login/cellphone?phone=xxx&captcha=1234`
 
-#### 2. 邮箱登录
+#### 2. 邮箱登录(现在要求验证,暂时绕不过,请使用二维码登录)
 
 **必选参数 :**
 
@@ -799,6 +802,14 @@ signature：用户签名
 **接口地址 :** `/avatar/upload`
 
 **调用例子 :** `/avatar/upload?imgSize=200`
+
+### 私信和通知接口
+
+说明 : 登录后调用此接口,可获取私信和通知数量信息
+
+**接口地址 :** `/pl/count`
+
+**调用例子 :** `/pl/count`
 
 ### 国家编码列表
 
@@ -1394,13 +1405,13 @@ tags: 歌单标签
 
 **调用例子 :** `/playlist/track/all?id=24381616&limit=10&offset=1`
 
-> 注：关于`offset`，你可以这样理解，假设你当前的歌单有100首歌
+> 注：关于`offset`，你可以这样理解，假设你当前的歌单有200首歌
 > 
-> 你传入limit=10&offset=0等价于limit=10，你会得到第1-10首歌曲
-> 
-> 你传入limit=10&offset=1，你会得到第2-11首歌曲
-> 
-> 如果你设置limit=10&offset=2，你就会得到第3-12首歌曲
+> 你传入limit=50&offset=0等价于limit=50，你会得到第1-50首歌曲
+
+> 你传入limit=50&offset=50，你会得到第51-100首歌曲
+
+> 如果你设置limit=50&offset=100，你就会得到第101-150首歌曲
 
 
 ### 歌单详情动态
