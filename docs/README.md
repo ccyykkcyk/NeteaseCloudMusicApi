@@ -269,6 +269,7 @@
 251. 曲风-歌单
 252. 曲风-歌手
 253. 私信和通知接口
+254. 回忆坐标
 
 ## 安装
 
@@ -489,9 +490,9 @@ $ sudo docker run -d -p 3000:3000 netease-music-api
 
 不要频繁调登录接口,不然可能会被风控,登录状态还存在就不要重复调登录接口
 
-因网易增加了网易云盾验证,密码登录暂时不要使用,尽量使用短信验证码登录和二维码登录,否则调用某些接口会触发需要验证的错误
+~~因网易增加了网易云盾验证,密码登录暂时不要使用,尽量使用短信验证码登录和二维码登录,否则调用某些接口会触发需要验证的错误~~
 
-#### 1. 手机登录(现在要求验证,暂时绕不过,请使用二维码登录)
+#### 1. 手机登录
 
 **必选参数 :**  
 `phone`: 手机号码
@@ -509,7 +510,7 @@ $ sudo docker run -d -p 3000:3000 netease-music-api
 
 **调用例子 :** `/login/cellphone?phone=xxx&password=yyy` `/login/cellphone?phone=xxx&md5_password=yyy` `/login/cellphone?phone=xxx&captcha=1234`
 
-#### 2. 邮箱登录(现在要求验证,暂时绕不过,请使用二维码登录)
+#### 2. 邮箱登录
 
 **必选参数 :**
 
@@ -2259,7 +2260,7 @@ originSongSimpleData: Option<SongSimpleData>, 对于翻唱曲，可选提供原�
 single: enum,
   0: 有专辑信息或者是DJ节目
   1: 未知专辑
-noCopyrightRcmd: Option<NoCopyrightRcmd>, None表示可以播，非空表示无版权
+noCopyrightRcmd: Option<NoCopyrightRcmd>, 不能判断出歌曲有无版权
 mv: u64, 非零表示有MV ID
 rtype: 常为0，功能未知
 rurl: Option<String(?)>, 常为None，功能未知
@@ -4135,6 +4136,22 @@ type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 说明: 调用此接口可以获取首页推荐的星评馆评论信息
 
 **接口地址:** `/starpick/comments/summary`
+
+### 私人 DJ
+
+说明: 调用此接口可以获取私人 DJ 的推荐内容 (包括 DJ 声音和推荐歌曲)
+
+**接口地址:** `/aidj/content/rcmd`
+
+**可选参数：** `longitude` `latitude` : 当前的经纬度
+
+### 回忆坐标
+
+说明: 可以获取当前歌曲的回忆坐标信息 (见手机 APP 百科页的回忆坐标功能)
+
+**接口地址:** `/music/first/listen/info`
+
+**必选参数：** `id` : 歌曲 ID
 
 ## 离线访问此文档
 

@@ -61,7 +61,7 @@ const createRequest = (method, url, data = {}, options) => {
       options.cookie = {
         ...options.cookie,
         __remember_me: true,
-        NMTID: crypto.randomBytes(16).toString('hex'),
+        // NMTID: crypto.randomBytes(16).toString('hex'),
         _ntes_nuid: crypto.randomBytes(16).toString('hex'),
       }
       if (!options.cookie.MUSIC_U) {
@@ -147,10 +147,16 @@ const createRequest = (method, url, data = {}, options) => {
       } else {
         const purl = new URL(options.proxy)
         if (purl.hostname) {
-          const agent = tunnel.httpsOverHttp({
+          const agent = tunnel[
+            purl.protocol === 'https' ? 'httpsOverHttp' : 'httpOverHttp'
+          ]({
             proxy: {
               host: purl.hostname,
               port: purl.port || 80,
+              proxyAuth:
+                purl.username && purl.password
+                  ? purl.username + ':' + purl.password
+                  : '',
             },
           })
           settings.httpsAgent = agent
@@ -182,7 +188,7 @@ const createRequest = (method, url, data = {}, options) => {
             answer.body = body
           }
 
-          answer.status = answer.body.code || res.status
+          answer.status = Number(answer.body.code || res.status)
           if (
             [201, 302, 400, 502, 800, 801, 802, 803].indexOf(answer.body.code) >
             -1
