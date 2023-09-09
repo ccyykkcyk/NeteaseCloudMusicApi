@@ -270,6 +270,10 @@
 252. 曲风-歌手
 253. 私信和通知接口
 254. 回忆坐标
+255. 播客搜索
+256. 播客声音上传
+257. 验证接口-二维码生成
+258. 验证接口-二维码检测
 
 ## 安装
 
@@ -4158,6 +4162,88 @@ type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 **接口地址:** `/music/first/listen/info`
 
 **必选参数：** `id` : 歌曲 ID
+
+### 播客列表
+
+说明: 可以获取播客列表
+
+**接口地址:** `/voicelist/search`
+
+**可选参数：** 
+
+`limit`: 取出歌单数量 , 默认为 200
+
+`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*200, 其中 200 为 limit 的值
+
+`podcastName`: 播客名称
+
+### 播客上传声音
+说明: 可以上传声音到播客,例子在 `/public/voice_upload.html` 访问地址: <a href="/voice_upload.html" target="_blank">/voice_upload.html</a>
+
+**接口地址:** `/voice/upload`
+
+**必选参数：** 
+`voiceListId`: 播客 id  
+
+`coverImgId`: 播客封面  
+
+`categoryId`: 分类id  
+
+`secondCategoryId`:次级分类id  
+
+`description`: 声音介绍
+
+
+**可选参数：** 
+`songName`: 声音名称
+
+`privacy`: 设为隐私声音,播客如果是隐私博客,则必须设为1
+
+`publishTime`:默认立即发布,定时发布的话需传入时间戳
+
+`autoPublish`: 是否发布动态,是则传入1
+
+`autoPublishText`: 动态文案
+
+`orderNo`: 排序,默认为1
+
+`composedSongs`: 包含歌曲(歌曲id),多个用逗号隔开
+
+### 验证接口-二维码生成
+说明: 进行某些操作,如关注用户,可能会触发验证,可调用这个接口生成二维码,使用app扫码后可解除验证  
+
+**接口地址:** `/verify/getQr`
+
+**必选参数：**   
+
+`vid`: 触发验证后,接口返回的verifyId  
+
+`type`:触发验证后,接口返回的verifyType  
+
+`token`:触发验证后,接口返回的verifyToken  
+
+`evid`:触发验证后,接口返回的params的event_id  
+
+`sign`:触发验证后,接口返回的params的sign
+
+### 验证接口-二维码检测
+说明: 使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态
+
+**接口地址:** `/verify/qrcodestatus`
+
+**必选参数：**   
+
+`qr`: `/verify/getQr`接口返回的`qr`字符串
+
+返回结果说明:
+
+qrCodeStatus:0,detailReason:0 二维码生成成功
+
+qrCodeStatus:0,detailReason:303 账号不一致
+
+qrCodeStatus:10,detailReason:0  二维码已扫描,并且手机号相同
+
+qrCodeStatus:20,detailReason:0  验证成功qrCodeStatus:21,detailReason:0 二维码已失效
 
 ## 离线访问此文档
 
