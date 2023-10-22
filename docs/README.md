@@ -285,6 +285,7 @@
 267. 用户贡献内容
 268. 用户贡献条目、积分、云贝数量
 269. 年度听歌报告
+270. 播客声音搜索
 
 ## 安装
 
@@ -585,7 +586,11 @@ v3.30.0 后支持手动传入 cookie,登录接口返回内容新增 `cookie` 字
 
 **调用例子 :** `/login/qr/check?key=xxx`
 
-调用可参考项目文件例子`/public/qrlogin.html` (访问地址:http://localhost:3000/qrlogin.html)
+调用可参考项目文件例子
+
+`/public/qrlogin.html` (访问地址:http://localhost:3000/qrlogin.html)
+
+`/public/qrlogin-nocookie.html` (访问地址:http://localhost:3000/qrlogin-nocookie.html)
 
 
 #### 3. 游客登录
@@ -2474,6 +2479,30 @@ pc: 云盘歌曲信息，如果不存在该字段，则为非云盘歌曲
 返回数据如下图 :
 ![每日推荐歌曲](https://raw.githubusercontent.com/Binaryify/NeteaseCloudMusicApi/master/static/%E6%8E%A8%E8%8D%90%E6%AD%8C%E6%9B%B2.png)
 
+### 每日推荐歌曲-不感兴趣
+
+说明 : 日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲, 需要登录 )
+
+**必选参数 :** `id`: 歌曲 id
+
+**接口地址 :** `/recommend/songs/dislike`
+
+**调用例子 :** `/recommend/songs/dislike?id=168091`
+
+返回数据 :
+```json
+{
+  "data":{
+    "name":"破碎太阳之心",
+    "id":2009592201,
+    "position":0,
+    "alias":[],
+    ...
+  },
+  "code":200
+}
+```
+
 ### 获取历史日推可用日期列表
 
 说明 : 调用此接口 , 可获得历史日推可用日期列表
@@ -3272,7 +3301,7 @@ type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 
 说明 : 登录后调用此接口 , 传入`rid`, 可查看对应电台的电台节目以及对应的 id, 需要
 注意的是这个接口返回的 mp3Url 已经无效 , 都为 null, 但是通过调用 `/song/url` 这
-个接口 , 传入节目 id 仍然能获取到节目音频 , 如 `/song/url?id=478446370` 获取代
+个接口 , 传入节目 mainTrackId 仍然能获取到节目音频 , 如 `/song/url?id=478446370` 获取代
 码时间的一个节目的音频
 
 **必选参数 :** `rid`: 电台 的 id
@@ -4209,6 +4238,46 @@ ONLINE 已发布
 `limit`: 取出歌单数量 , 默认为 200
 
 `offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*200, 其中 200 为 limit 的值
+
+### 播客声音搜索
+说明: 可以搜索播客里的声音
+
+**接口地址:** `/voicelist/list/search`
+
+**可选参数**  
+
+- 状态（非必填）：
+    - `displayStatus: null`（默认）：返回所有状态的声音
+    - `displayStatus: "ONLINE"`：已发布的声音
+    - `displayStatus: "AUDITING"`：审核中的声音
+    - `displayStatus: "ONLY_SELF_SEE"`：尽自己可见的声音
+    - `displayStatus: "SCHEDULE_PUBLISH"`：定时发布的声音
+    - `displayStatus: "TRANSCODE_FAILED"`：上传失败的声音
+    - `displayStatus: "PUBLISHING"`：发布中的声音
+    - `displayStatus: "FAILED"`：发布失败的声音
+
+- `limit: 20`：每次返回的声音数量（最多200个）
+
+- 搜索关键词：
+    - `name: null`：返回所有的声音
+    - `name: [关键词]`：返回包含指定关键词的声音文件
+
+- `offset: 0`：偏移量，用于分页，默认为0，表示从第一个声音开始获取
+
+- 博客：
+    - `radioId: null`：返回所有电台的声音
+    - `radioId: [播客id]`：返回特定播客的声音
+
+- 是否公开：
+    - `type: null`：返回所有类型的声音
+    - `type: "PUBLIC"`：返回公开的声音
+    - `type: "PRIVATE"`：返回隐私的声音
+
+- 是否付费：
+    - `voiceFeeType: null`（默认）：返回所有类型的声音
+    - `voiceFeeType: -1`：返回所有类型的声音
+    - `voiceFeeType: 0`：返回免费的声音
+    - `voiceFeeType: 1`：返回收费的声音
 
 ### 播客声音详情
 
